@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Randominium</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body onload="randomNumber()">
+<a href="../index.html" >
+    <svg id="back" width="30" height="30" viewBox="0 0 172 172" style=" fill:#000000;">
+        <g fill="#ffffff">
+            <path d="M86,0.11198c-22.04467,0 -44.09527,8.35992 -60.81868,25.08333c-33.44683,33.44683 -33.44683,88.17654 0,121.62337c33.44683,33.44683 88.17654,33.44683 121.62337,0c33.44683,-33.44683 33.44683,-88.17654 0,-121.62337c-16.72342,-16.72342 -38.76002,-25.08333 -60.80469,-25.08333zM86,14.41732c18.36996,0 36.73499,6.97653 50.67057,20.91211c27.87117,27.87117 27.87117,73.46998 0,101.34114c-27.87116,27.87117 -73.46998,27.87117 -101.34114,0c-27.87117,-27.87116 -27.87117,-73.46998 0,-101.34114c13.93558,-13.93558 32.30061,-20.91211 50.67057,-20.91211zM86,35.32943l-50.67057,50.67057l50.67057,50.67057l12.26172,-12.26172l-31.27019,-31.27018l69.17513,0.02799v-14.33333l-69.17513,0.02799l31.21419,-31.22819z"></path></g></svg>
+</a>
+<div id="container">
+    <p id="title">Randominium 🎲🎲🎲 </p>
+    <form>
+        <label for="user-number">
+            Wylosowałem liczbę w zakresie od 0 do 100.
+            <br>
+            Zgadnij ją!
+            <br>
+        </label>
+        <div id="button-container">
+            <input id="user-number" type="number" min="0" step="1">
+            <button id="number-button" type="button" onclick="checkNumber()">Zatwierdź!</button>
+            <button id="play-again" type="button" onclick="playAgain()">Jeszcze raz!</button>
+        </div>
+    </form>
+    <p id="statement"><br></p>
+</div>
+
+</body>
+
+<script src="script.js"></script>
+</html>

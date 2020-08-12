@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+#container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+#randominium, #tictactoe {
+    height: 50vh;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
