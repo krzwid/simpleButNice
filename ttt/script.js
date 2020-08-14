@@ -1,33 +1,57 @@
-let arrayOfMoves =
-   [
-      0, 0, 0,
-      0, 0, 0,
-      0, 0, 0
-   ];
+window.addEventListener('load', prepareBoard);
+document.getElementById('play-again').addEventListener('click', prepareBoard);
 
-let playerOne = true;
+function prepareBoard() {
+    isPlayerOneTurn = true;
+    arrayOfMoves.forEach((move, i) => {
+        let divID = getIDFromNumber(i);
+        let div = document.getElementById(divID);
+
+        div.addEventListener('click', function() {
+            makeMove(div.id);
+        }, false);
+
+        arrayOfMoves[i] = 0;
+        let id = getIDFromNumber(i);
+        document.getElementById(id).innerHTML = '';
+    });
+    let result = document.getElementById('result');
+    result.innerText = 'Player';
+    result.style.visibility = 'hidden';
+    document.getElementById('draw').style.visibility = 'hidden';
+    document.getElementById('final-board').style.display = 'none';
+}
+
+let isPlayerOneTurn;
+
+let arrayOfMoves =
+   [ 0, 0, 0,
+     0, 0, 0,
+     0, 0, 0 ];
+
+const winningCombinations = [
+    [0,1,2], [3,4,5], [6,7,8], //rows
+    [0,3,6], [1,4,7], [2,5,8], //columns
+    [0,4,8], [2,4,6] //diagonal
+]
 
 function makeMove(id) {
     let number = getNumberFromID(id);
-    let height = document.getElementById(id).offsetHeight;
+    let div = document.getElementById(id);
+    let height = div.offsetHeight;
 
-    if(playerOne) {
-        document.getElementById(id).innerHTML = 'X';
+    if(isPlayerOneTurn) {
+        div.innerText = 'X';
         arrayOfMoves[number] = 1;
-        playerOne = false;
-        document.getElementById(id).removeAttribute("onclick");
-        if(checkPlayerWon()) return;
-        checkDraw();
-    }
-    else {
-        document.getElementById(id).innerText = 'O';
+    } else {
+        div.innerText = 'O';
         arrayOfMoves[number] = 2;
-        playerOne = true;
-        document.getElementById(id).removeAttribute("onclick");
-        if(checkComputerWon()) return;
-        checkDraw();
     }
+
     adjustHeight(number, height);
+    div.replaceWith(div.cloneNode(true));
+    checkWinner(isPlayerOneTurn);
+    isPlayerOneTurn = !isPlayerOneTurn;
 }
 
 function adjustHeight(number, height) {
@@ -36,26 +60,55 @@ function adjustHeight(number, height) {
     }
 }
 
-function prepareBoard() {
-    arrayOfMoves.forEach((move, i) => {
-        arrayOfMoves[i] = 0;
-        let id = getIDFromNumber(i);
-        document.getElementById(id).innerHTML = '';
-        document.getElementById(id).setAttribute('onclick', 'makeMove(this.id)');
-    });
-    document.getElementById('won').style.visibility = 'hidden';
-    document.getElementById('lost').style.visibility = 'hidden';
-    document.getElementById('draw').style.visibility = 'hidden';
-    document.getElementById('final-board').style.display = 'none';
+function checkWinner(isPlayerOneTurn) {
+    let result = document.getElementById('result');
+
+    if(isPlayerOneTurn) {
+        winningCombinations.forEach(combination => {
+            if( arrayOfMoves[combination[0]] === 1
+                && arrayOfMoves[combination[1]] === 1
+                && arrayOfMoves[combination[2]] === 1){
+
+                document.getElementById('final-board').style.display = 'initial';
+                let xWon = document.createTextNode(" X won!");
+                result.appendChild(xWon);
+                result.style.visibility = 'visible';
+                inactiveBoard();
+                return true;
+            }
+        });
+    }
+    else {
+        winningCombinations.forEach(combination => {
+            if( arrayOfMoves[combination[0]] === 2
+                && arrayOfMoves[combination[1]] === 2
+                && arrayOfMoves[combination[2]] === 2){
+
+                document.getElementById('final-board').style.display = 'initial';
+                let oWon = document.createTextNode(" O won!");
+                result.appendChild(oWon);
+                result.style.visibility = 'visible';
+                inactiveBoard();
+                return true;
+            }
+        });
+    }
+    checkDraw();
+}
+
+function checkDraw() {
+    if(!arrayOfMoves.includes(0)) {
+        document.getElementById('final-board').style.display = 'initial';
+        document.getElementById('draw').style.visibility = 'visible';
+        inactiveBoard();
+    }
 }
 
 function inactiveBoard() {
     arrayOfMoves.forEach((move, i) => {
         let id = getIDFromNumber(i);
         let div = document.getElementById(id);
-        if (div.hasAttribute('onclick')){
-            div.removeAttribute('onclick');
-        }
+        div.replaceWith(div.cloneNode(true));
     });
 }
 
@@ -85,61 +138,4 @@ function getIDFromNumber(number) {
         case 7: return "seven";
         case 8: return "eight";
     }
-}
-
-function checkDraw() {
-    let isDraw = !arrayOfMoves.includes(0);
-    if(isDraw) {
-        document.getElementById('final-board').style.display = 'initial';
-        document.getElementById('draw').style.visibility = 'visible';
-        inactiveBoard();
-        return true;
-    }
-    return false;
-}
-
-function checkPlayerWon() {
-    let playerWon = false;
-    if(arrayOfMoves[0] === 1 && arrayOfMoves[1] === 1 && arrayOfMoves[2] === 1) playerWon = true;
-    if(arrayOfMoves[3] === 1 && arrayOfMoves[4] === 1 && arrayOfMoves[5] === 1) playerWon = true;
-    if(arrayOfMoves[6] === 1 && arrayOfMoves[7] === 1 && arrayOfMoves[8] === 1) playerWon = true;
-
-    if(arrayOfMoves[0] === 1 && arrayOfMoves[3] === 1 && arrayOfMoves[6] === 1) playerWon = true;
-    if(arrayOfMoves[1] === 1 && arrayOfMoves[4] === 1 && arrayOfMoves[7] === 1) playerWon = true;
-    if(arrayOfMoves[2] === 1 && arrayOfMoves[5] === 1 && arrayOfMoves[8] === 1) playerWon = true;
-
-    if(arrayOfMoves[0] === 1 && arrayOfMoves[4] === 1 && arrayOfMoves[8] === 1) playerWon = true;
-    if(arrayOfMoves[2] === 1 && arrayOfMoves[4] === 1 && arrayOfMoves[6] === 1) playerWon = true;
-
-    if(playerWon) {
-        document.getElementById('final-board').style.display = 'initial';
-        document.getElementById('won').style.visibility = 'visible';
-
-        inactiveBoard();
-        return true;
-    }
-    return false;
-}
-
-function checkComputerWon() {
-    let computerWon = false;
-    if(arrayOfMoves[0] === 2 && arrayOfMoves[1] === 2 && arrayOfMoves[2] === 2) computerWon = true;
-    if(arrayOfMoves[3] === 2 && arrayOfMoves[4] === 2 && arrayOfMoves[5] === 2) computerWon = true;
-    if(arrayOfMoves[6] === 2 && arrayOfMoves[7] === 2 && arrayOfMoves[8] === 2) computerWon = true;
-
-    if(arrayOfMoves[0] === 2 && arrayOfMoves[3] === 2 && arrayOfMoves[6] === 2) computerWon = true;
-    if(arrayOfMoves[1] === 2 && arrayOfMoves[4] === 2 && arrayOfMoves[7] === 2) computerWon = true;
-    if(arrayOfMoves[2] === 2 && arrayOfMoves[5] === 2 && arrayOfMoves[8] === 2) computerWon = true;
-
-    if(arrayOfMoves[0] === 2 && arrayOfMoves[4] === 2 && arrayOfMoves[8] === 2) computerWon = true;
-    if(arrayOfMoves[2] === 2 && arrayOfMoves[4] === 2 && arrayOfMoves[6] === 2) computerWon = true;
-
-    if(computerWon){
-        document.getElementById('final-board').style.display = 'initial';
-        document.getElementById('lost').style.visibility = 'visible';
-
-        inactiveBoard();
-        return true;
-    }
-    return false;
 }
