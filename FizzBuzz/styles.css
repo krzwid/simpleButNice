@@ -1,0 +1,73 @@
+body {
+    margin: 0;
+    text-align: center;
+}
+
+#container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-areas: "best-score current-score current-score time" "instruction instruction instruction instruction" "instruction instruction instruction instruction" ". proper-number proper-number ." ". proper-number proper-number ." "answer-number answer-fizz answer-buzz answer-fizzbuzz";
+    height: 100vh;
+    font-size: 30px;
+}
+
+#back {
+    position: absolute;
+    z-index: 1;
+    top: 5px;
+    left: 5px;
+    color: white;
+}
+
+#best-score {
+    background-color: yellow;
+    grid-area: best-score;
+}
+
+#current-score {
+    background-color: red;
+    grid-area: current-score;
+}
+
+#time {
+    background-color: pink;
+    grid-area: time;
+}
+
+#instruction {
+    background-color: blue;
+    grid-area: instruction;
+}
+
+#proper-number {
+    background-color: fuchsia;
+    grid-area: proper-number;
+    font-size: 150px;
+}
+
+#answer-number {
+    background-color: cornflowerblue;
+    grid-area: answer-number;
+    color: white;
+}
+
+#answer-fizz {
+    background-color: peachpuff;
+    grid-area: answer-fizz;
+}
+
+#answer-buzz {
+    background-color: greenyellow;
+    grid-area: answer-buzz;
+
+}
+
+#answer-fizzbuzz {
+    background-color: grey;
+    grid-area: answer-fizzbuzz;
+}
+
+.answer {
+}
+

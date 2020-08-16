@@ -9,8 +9,8 @@ body {
     height: 100vh;
 }
 
-#randominium, #tictactoe {
-    height: 50vh;
+#randominium, #tictactoe, #fizzbuzz {
+    height: 33vh;
 }
 
 img {
