@@ -1,5 +1,6 @@
 body {
     font-size: 140px;
+    font-family: Rubik, serif;
 }
 
 #back {
@@ -10,7 +11,7 @@ body {
 }
 
 #container {
-    background-color: #dc0bcc;
+    background-color: white;
     position:fixed;
     padding:0;
     margin:0;
@@ -21,11 +22,16 @@ body {
     display: grid;
     grid-gap: 3px;
     grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
     text-align: center;
 }
 
 .play-field {
-    background-color: rebeccapurple;
+    background-color: black;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #final-board {
