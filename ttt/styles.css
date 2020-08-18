@@ -44,7 +44,11 @@ body {
     transform: translate(-50%, -50%);
     padding: 50px 0 50px 0;
     text-align: center;
-    font-size: 50px;
+    font-size: 25px;
+    opacity: 95%;
+}
+
+.displayNone {
     display: none;
 }
 
@@ -52,7 +56,7 @@ body {
     font-size: 30px;
 }
 
-#won, #lost, #draw {
+.hide {
     visibility: hidden;
 }
 p {

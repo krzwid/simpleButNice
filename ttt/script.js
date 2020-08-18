@@ -7,48 +7,56 @@ const winningCombinations = [
     [0,1,2], [3,4,5], [6,7,8], //rows
     [0,3,6], [1,4,7], [2,5,8], //columns
     [0,4,8], [2,4,6] //diagonal
-]
+];
 
 let whichPlayerTurn;
+let playerOwins = 0;
+let playerXwins = 0;
 
 window.addEventListener('load', prepareBoard);
 document.getElementById('play-again').addEventListener('click', prepareBoard);
 
 function prepareBoard() {
-    Math.floor(Math.random() * 2) === 1 ? whichPlayerTurn = 'X' : whichPlayerTurn = 'O';
+    document.getElementById('final-board').classList.add('displayNone');
+    document.getElementById('result').classList.add('hide');
+    document.getElementById('draw').classList.add('hide');
+    document.getElementById('player-o-wins').classList.add('hide');
+    document.getElementById('player-x-wins').classList.add('hide');
+
+    whichPlayerTurn = Math.floor(Math.random() * 2) === 1 ? 'X' : 'O';
+    whichPlayerTurn === 'X' ? alert('Player X starts') : alert('Player O starts');
 
     arrayOfMoves.forEach((move, i) => {
-        let div = document.querySelector(`.play-field[data-index="${i}"]`);
+        const div = getPlayField(i);
+        div.dataset.disabled = "false";
+
         div.addEventListener('click', function() {
-            makeMove(i);
+            if (div.dataset.disabled !== "true") {
+                makeMove(i);
+            }
         }, false);
 
         arrayOfMoves[i] = 0;
         div.innerHTML = '';
     });
-
-    document.getElementById('result').innerText = 'Player';
-    document.getElementById('result').style.visibility = 'hidden';
-    document.getElementById('draw').style.visibility = 'hidden';
-    document.getElementById('final-board').style.display = 'none';
 }
 
 function makeMove(id) {
-    let div = document.querySelector(`.play-field[data-index="${id}"]`);
+    const div = getPlayField(id);
     div.innerText = whichPlayerTurn;
+    div.dataset.disabled = "true";
+
     arrayOfMoves[id] = whichPlayerTurn;
-    div.replaceWith(div.cloneNode(true));
     checkWinner(whichPlayerTurn);
-    whichPlayerTurn = whichPlayerTurn === 'X' ? whichPlayerTurn = 'O' : whichPlayerTurn = 'X';
+    whichPlayerTurn = whichPlayerTurn === 'X' ? 'O' : 'X';
 }
 
 function checkWinner(whichPlayerTurn) {
-    console.log(arrayOfMoves);
     winningCombinations.forEach(combination => {
         if( arrayOfMoves[combination[0]] === whichPlayerTurn
             && arrayOfMoves[combination[1]] === whichPlayerTurn
             && arrayOfMoves[combination[2]] === whichPlayerTurn){
-
+            whichPlayerTurn === 'X' ? playerXwins++ : playerOwins++;
             displayFinalBoard(false);
             return true;
         }
@@ -63,21 +71,27 @@ function checkDraw() {
 }
 
 function displayFinalBoard(isDraw) {
-    document.getElementById('final-board').style.display = 'initial';
+    document.getElementById('final-board').classList.remove('displayNone');
+    document.getElementById('player-x-wins').innerText = 'Player X score: ' + playerXwins;
+    document.getElementById('player-o-wins').innerText = 'Player O score: ' + playerOwins;
+    document.getElementById('player-x-wins').classList.remove('hide');
+    document.getElementById('player-o-wins').classList.remove('hide');
 
     if (isDraw) {
-        document.getElementById('draw').style.visibility = 'visible';
+        document.getElementById('draw').classList.remove('hide');
     }else {
-        let whoWon = document.createTextNode(" " + whichPlayerTurn + " won!");
-        document.getElementById('result').appendChild(whoWon);
-        document.getElementById('result').style.visibility = 'visible';
+        document.getElementById('result').innerText = 'Player ' + whichPlayerTurn + " won!";
+        document.getElementById('result').classList.remove('hide');
     }
     inactiveBoard();
 }
 
 function inactiveBoard() {
     arrayOfMoves.forEach((move, i) => {
-        let div = document.querySelector(`.play-field[data-index="${i}"]`);
-        div.replaceWith(div.cloneNode(true));
+        getPlayField(i).dataset.disabled = "true";
     });
+}
+
+function getPlayField(divID) {
+    return document.querySelector(`.play-field[data-index="${divID}"]`);
 }
