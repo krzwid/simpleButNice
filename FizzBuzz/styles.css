@@ -68,6 +68,8 @@ body {
     grid-area: answer-fizzbuzz;
 }
 
-.answer {
+#container > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-
