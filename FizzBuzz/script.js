@@ -42,7 +42,7 @@ function prepareGame() {
 function startTimer(duration, display) {
     let minutes, seconds;
     timer = duration;
-    let intervalID = setInterval(function () {
+    intervalID = setInterval(function () {
         minutes = parseInt(timer / 60,10);
         seconds = parseInt(timer % 60,10);
 
@@ -69,6 +69,12 @@ function clickAnswer() {
     currentScore.innerText = 'Your current score: ' + number.toString();
 }
 
+function addScore() {
+    if(number % firstDivisor === 0 && time > 0.5) {
+        timeBenefit -= 0.1;
+    }
+    timer += timeBenefit;
+}
 
 function checkAnswer(elementID) {
     switch (elementID) {
@@ -94,14 +100,6 @@ function checkAnswer(elementID) {
             break;
     }
     return true;
-}
-
-
-function addScore() {
-    if(number % firstDivisor === 0 && time > 0.5) {
-        timeBenefit -= 0.1;
-    }
-    timer += timeBenefit;
 }
 
 function lost() {

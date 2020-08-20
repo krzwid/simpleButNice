@@ -1,15 +1,20 @@
 body {
     margin: 0;
-    text-align: center;
 }
 
 #container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: "best-score current-score current-score time" "instruction instruction instruction instruction" "instruction instruction instruction instruction" ". proper-number proper-number ." ". proper-number proper-number ." "answer-number answer-fizz answer-buzz answer-fizzbuzz";
+    grid-template-areas:
+            "best-score current-score current-score time"
+            "instruction instruction instruction instruction"
+            "instruction instruction instruction instruction"
+            "proper-number proper-number proper-number proper-number"
+            "proper-number proper-number proper-number proper-number"
+            "answer-number answer-fizz answer-buzz answer-fizzbuzz";
     height: 100vh;
-    font-size: 30px;
+    font-size: 25px;
 }
 
 #back {
@@ -43,7 +48,7 @@ body {
 #proper-number {
     background-color: fuchsia;
     grid-area: proper-number;
-    font-size: 150px;
+    font-size: 130px;
 }
 
 #answer-number {
